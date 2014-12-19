@@ -4,13 +4,13 @@ A really simple directive for a routing number search field.
 
 
 
-Tested with angularjs-1.2.4
+Tested with angularjs-1.2.20
 
 
 
 ## Examples
 
-Coming Soon!
+[Example Plunker - Basic Usage](http://plnkr.co/edit/EyFvXx?p=preview)
 
 ## Usage
 
@@ -22,12 +22,11 @@ var app = angular.module('myModule', ['ngRoutingnum']);
 Add the directive to a textbox
 
 ``` javascript
-    <input type="text"  ng-routingnum ng-model="routingnum" />
+    <input type="text"  ng-routingnum ng-model="formData.routingnum" />
 ```
 
 ## Documentation
 
-+ ng-model - textbox value
 
 ## Author
 
