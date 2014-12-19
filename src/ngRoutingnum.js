@@ -1,44 +1,30 @@
-'use strict';
-
-/**
- * A really simple directive for a routing number search field
- * Routing number search API: http://www.routingnumbers.info/api/index.html
- *
- * Usage:
- *
- * <input type="text"  ng-routingnum ng-model="routingnumber" />
- *
- * + ng-model - textbox value
- *
- *TODO: Add configurable options, output methods
- * 
- *
-**/
-
-angular.module( "ngRoutingnum", [])
-  .directive('ngRoutnumsearch', function () {
-    return {
-      link: function (scope, element, controller) {
-
-
-
-        //Bind lookup to input blur
-        element.bind('blur', function () {
-          if ($(element[0]).val()) {
-            var routing_num_in = $(element[0]).val();
-            var routLookup = function (routeIn) {
-              $.ajax({
-                url: 'https://routingnumbers.herokuapp.com/api/name.json?rn=' + routeIn,
-                dataType: 'jsonp',
-                success: function (routeData) {
-                  //DO SOMETHING WITH THE DATA
-                }
-              });
-            };
-            routLookup(routing_num_in);
+angular.module("ngRoutingnum", []).directive('ngRoutnumsearch', function () {
+  // Routing # Lookup Directive
+  // Uses API from http://www.routingnumbers.info/index.html
+  // @author naterchrdsn (http://naterichardson.com)
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    controller: ['$scope', '$http', function($scope, $http) {
+      $scope.getBank = function (routeIn) {
+        $.ajax({
+          url: 'https://routingnumbers.herokuapp.com/api/name.json?rn=' + routeIn,
+          dataType: 'json',
+          success: function (routeData) {
+            // Do something with the data here!
+            // routeData.name is the name of the bank
+          },
+          fail: function (response) {
+            // Add failed response here
           }
         });
-      }
-    };
-  });
+      };
+    }],
+    link: function (scope, element, attrs, ngModel) {
+      if (!ngModel) return;
+      element.bind('blur', function () {
+        scope.getBank(element[0].value);
+      });
+    }
+  };
 });
